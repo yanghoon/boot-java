@@ -16,7 +16,12 @@ public class PostRestRepository {
     private final WebClient postWebClient;
 
     public Flux<Post> findAll() {
-        return postWebClient.get().uri(URI_POSTS).retrieve().bodyToFlux(Post.class);
+        // return postWebClient.get().uri(URI_POSTS).retrieve().bodyToFlux(Post.class);
+        return getFlux(URI_POSTS, Post.class);
+    }
+
+    private <T> Flux<T> getFlux(String uri, Class<T> bodyType) {
+        return postWebClient.get().uri(uri).retrieve().bodyToFlux(bodyType);
     }
     
 }
