@@ -1,20 +1,39 @@
 package slim.bootjava.domain.post.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import reactor.core.publisher.Flux;
 import slim.bootjava.domain.post.entity.Post;
+import slim.bootjava.domain.post.entity.PostSummary;
+import slim.bootjava.domain.post.repository.PostRepository;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostService {
     
-    private final WebClient postWebClient;
+    private final PostRepository postRepo;
 
-    public Flux<Post> getPostsByWebClient() {
-        final String URI_POSTS = "/posts";
-        return postWebClient.get().uri(URI_POSTS).retrieve().bodyToFlux(Post.class);
+    @Transactional(readOnly = true)
+    public List<Post> getPosts() {
+        return postRepo.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Post> getPostsWithUser() {
+        return postRepo.findAllWithUser();
+    }
+
+    @Transactional(readOnly = true)
+    public Post getPostById(Long id) {
+        return postRepo.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostSummary> getPostSummaries() {
+        return postRepo.findAllPostSummaries();
     }
 }

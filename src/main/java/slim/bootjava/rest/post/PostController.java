@@ -3,7 +3,6 @@ package slim.bootjava.rest.post;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class PostController {
     private final PostService service;
 
     @GetMapping
-    public ResponseEntity<?> getPosts(@RequestParam(required = false) String type) {
-        return ResponseEntity.ok(service.getPostsByWebClient());
+    public ResponseEntity<?> getPosts() {
+        return ResponseEntity.ok(service.getPosts());
     }
 }
